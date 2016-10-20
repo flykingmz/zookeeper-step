@@ -158,20 +158,13 @@ public class SimpleDistributedLock implements DistributedLock {
 					}
 				};
 				
-				IZkChildListener childListener = new IZkChildListener() {  
-		            public void handleChildChange(String parentPath,List<String> currentChilds) throws Exception {  
-		            	logger.info("data path {} handleChildChange ",parentPath);
-		            	latch.countDown();
-		            }  
-		        };  
-				
 				try {
-					client.subscribeChildChanges(rootLockerName,childListener);
+					client.subscribeDataChanges(preSequencePath,dataListener);
 					logger.info("thread {} start wait {} and time {}",Thread.currentThread().getId(),rootLockerName,System.currentTimeMillis());
 					latch.await();
 				} catch (ZkNoNodeException e){
 					logger.info("zk client ZkNoNodeException error!", e);
-					client.subscribeChildChanges(rootLockerName, childListener);
+					client.subscribeDataChanges(preSequencePath, dataListener);
 				}catch (Exception e) {
 				}
 
