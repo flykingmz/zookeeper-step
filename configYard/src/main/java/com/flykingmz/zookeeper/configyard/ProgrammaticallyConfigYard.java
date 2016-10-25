@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ProgrammaticallyConfigYard implements ConfigYard {
 	private final static Logger logger = LoggerFactory
-			.getLogger(ProgrammaticallyConfigYard.class);
+			.getLogger(ProgrammaticallyConfigYardTest.class);
 	/**
 	 * 存储配置内容
 	 */
@@ -69,7 +69,14 @@ public class ProgrammaticallyConfigYard implements ConfigYard {
 	}
 
 	public String get(String key) {
-		return this.yardProperties.get(key);
+		if(this.yardProperties.get(key) == null){
+			String contactKey = this.contactKey(key);
+			if(!this.client.exists(contactKey)){
+				return null;
+			}
+			return this.client.readData(contactKey);
+		}
+		return yardProperties.get(key);
 	}
 
 	public Map<String, String> getAll() {
@@ -90,9 +97,8 @@ public class ProgrammaticallyConfigYard implements ConfigYard {
 		List<String> yardList = this.client.getChildren(yardRoot);
 		Map<String, String> currentYardProperties = new HashMap<String, String>();
 		for(String yard : yardList){
-			String value = this.client.readData(yard);
-			String key = yard.substring(yard.indexOf("/")+1);
-			currentYardProperties.put(key, value);
+			String value = this.client.readData(this.contactKey(yard));
+			currentYardProperties.put(yard, value);
 		}
 		yardProperties = currentYardProperties;
 	}

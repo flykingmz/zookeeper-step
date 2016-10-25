@@ -45,7 +45,7 @@
 	</logger>
 
 	<root>
-		<priority value="debug" />
+		<priority value="info" />
 		<appender-ref ref="all" />
 		<appender-ref ref="error" />
 		<appender-ref ref="console" />
