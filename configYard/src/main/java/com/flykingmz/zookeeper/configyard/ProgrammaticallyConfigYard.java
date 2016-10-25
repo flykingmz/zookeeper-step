@@ -69,11 +69,13 @@ public class ProgrammaticallyConfigYard implements ConfigYard {
 	}
 
 	public String get(String key) {
-		String contactKey = this.contactKey(key);
-		return this.client.readData(contactKey);
+		return this.yardProperties.get(key);
 	}
 
 	public Map<String, String> getAll() {
+		if(yardProperties != null){
+			return yardProperties;
+		}
 		List<String> yardList = this.client.getChildren(yardRoot);
 		Map<String, String> currentYardProperties = new HashMap<String, String>();
 		for(String yard : yardList){
@@ -85,7 +87,14 @@ public class ProgrammaticallyConfigYard implements ConfigYard {
 	}
 
 	public void reload() {
-		yardProperties = this.getAll();
+		List<String> yardList = this.client.getChildren(yardRoot);
+		Map<String, String> currentYardProperties = new HashMap<String, String>();
+		for(String yard : yardList){
+			String value = this.client.readData(yard);
+			String key = yard.substring(yard.indexOf("/")+1);
+			currentYardProperties.put(key, value);
+		}
+		yardProperties = currentYardProperties;
 	}
 
 }
