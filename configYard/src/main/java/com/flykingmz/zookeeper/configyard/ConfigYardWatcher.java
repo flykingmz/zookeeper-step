@@ -42,7 +42,7 @@ public class ConfigYardWatcher {
 
 	/**
 	 * 配置监听器
-	 * @author wenhui
+	 * @author flyking
 	 *
 	 */
 	private class ConfigYardListener implements IZkDataListener,IZkChildListener{
