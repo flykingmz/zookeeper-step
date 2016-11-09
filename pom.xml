@@ -39,5 +39,7 @@
 	</dependencies>
 	<modules>
 		<module>distributedLock</module>
+		<module>distributedSession</module>
+		<module>configYard</module>
 	</modules>
 </project>
