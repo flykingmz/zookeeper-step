@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 
-public class DistributeSessionFilter implements Filter {
+public class DistributedSessionFilter implements Filter {
 	private final static Logger logger = LoggerFactory
-			.getLogger(DistributeSessionFilter.class);
+			.getLogger(DistributedSessionFilter.class);
 	/**
 	 *
 	 */
